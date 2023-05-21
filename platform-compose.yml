@@ -9,6 +9,9 @@ services:
       POSTGRES_PASSWORD: admin123
     ports:
       - "10010:5432"
+    networks:
+      - airbyte-internal
+      - airbyte-public
   business-db-mongo:
     image: 'mongo:latest'
     container_name: business-db-mongo
@@ -18,6 +21,9 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: admin123
     ports:
       - "10020:27017"
+    networks:
+      - airbyte-internal
+      - airbyte-public
   bi-db-pg:
     image: postgres
     container_name: bi-db-pg
@@ -28,6 +34,9 @@ services:
       POSTGRES_PASSWORD: admin123
     ports:
       - "10030:5432"
+    networks:
+      - airbyte-internal
+      - airbyte-public
   data-injector:
     depends_on:
       business-db-pg:
@@ -37,10 +46,14 @@ services:
     build:
       context: ./datainjector
       dockerfile: Dockerfile
+    container_name: data-injector
     restart: always
     environment:
       MONGO_URL: mongodb://admin:admin123@business-db-mongo:27017
       POSTGRES_DSN: host=business-db-pg port=5432 user=admin password=admin123 dbname=postgres
+    networks:
+      - airbyte-internal
+      - airbyte-public
   metabase:
     depends_on:
       bi-db-pg:
@@ -48,13 +61,24 @@ services:
     image: metabase/metabase:latest
     container_name: metabase
     restart: always
-    environment:
-      MB_DB_TYPE: postgres
-      MB_DB_DBNAME: postgres
-      MB_DB_PORT: 5432
-      MB_DB_USER: admin
-      MB_DB_PASS: admin123
-      MB_DB_HOST: bi-db-pg
+#    environment:
+#      MB_DB_TYPE: postgres
+#      MB_DB_DBNAME: postgres
+#      MB_DB_PORT: 5432
+#      MB_DB_USER: admin
+#      MB_DB_PASS: admin123
+#      MB_DB_HOST: bi-db-pg
     ports:
       - "10000:3000"
+    networks:
+      - airbyte-internal
+      - airbyte-public
+
+networks:
+  airbyte-internal:
+    name: data-analytics-platform_airbyte_internal
+    external: true
+  airbyte-public:
+    name: data-analytics-platform_airbyte_public
+    external: true
     

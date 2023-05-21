@@ -8,11 +8,16 @@ import (
 	"time"
 )
 
+type OrderDetail struct {
+	Data string
+}
+
 type Order struct {
 	Id        primitive.ObjectID `bson:"_id,omitempty"`
 	ProductId int                `bson:"product_id"`
 	UserId    int                `bson:"user_id"`
 	TimeStamp time.Time          `bson:"timestamp"`
+	Details   OrderDetail        `bson:"details"`
 }
 
 type OrderRepository struct {

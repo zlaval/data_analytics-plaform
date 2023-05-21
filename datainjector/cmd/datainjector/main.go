@@ -19,7 +19,7 @@ var productEventRepository *mongodb.ProductEventRepository
 var userRepository *postgresdb.UserRepository
 
 func main() {
-    log.Println("Starting data injector...")
+	log.Println("Starting data injector...")
 	mongoDb := InitMongo()
 	defer mongoDb.Close()
 
@@ -94,6 +94,9 @@ func initOrders() {
 				ProductId: rand.Intn(30) + 1,
 				UserId:    rand.Intn(10) + 1,
 				TimeStamp: helper.RandomTime(),
+				Details: mongodb.OrderDetail{
+					Data: faker.Lorem().Sentence(rand.Intn(5) + 1),
+				},
 			}
 			err := orderRepository.Insert(order)
 			if err != nil {
@@ -153,6 +156,9 @@ func insertOrder() {
 			ProductId: rand.Intn(30) + 1,
 			UserId:    rand.Intn(10) + 1,
 			TimeStamp: helper.RandomTime(),
+			Details: mongodb.OrderDetail{
+				Data: faker.Lorem().Sentence(rand.Intn(5) + 1),
+			},
 		}
 		err := orderRepository.Insert(order)
 		if err != nil {
