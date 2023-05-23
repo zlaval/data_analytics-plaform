@@ -1,7 +1,6 @@
 {{
     config(
-        materialized='table',
-
+        materialized='incremental',
         unique_key='id',
         indexes=[
             {'columns': ['id'], 'type': 'btree', 'unique': true},
