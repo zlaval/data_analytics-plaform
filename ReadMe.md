@@ -10,3 +10,5 @@ pip install dbt-postgres
 
 dbt deps
 dbt run --full-refresh
+
+run --project-dir transformations

@@ -19,5 +19,5 @@ select
 from {{source('public','_airbyte_raw_users')}}
 
 {% if is_incremental() %}
-    where _airbyte_emitted_at > select max(sync_date) from {{ this }}
+    where _airbyte_emitted_at > (select max(sync_date) from {{ this }})
 {% endif %}

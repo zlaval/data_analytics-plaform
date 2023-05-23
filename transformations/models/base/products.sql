@@ -25,7 +25,7 @@ from
     where ph.id in(
         select id from {{ref('products_history')}}
         group by id
-        having max(sync_date) > select max(sync_date) from {{ this }}
+        having max(sync_date) > (select max(sync_date) from {{ this }})
     )
 {% endif %}
 
