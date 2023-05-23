@@ -31,8 +31,7 @@ func main() {
 	initOrders()
 
 	s := gocron.NewScheduler(time.UTC)
-	//TODO set to min sync
-	_, err := s.Every(10).Second().Do(insertOrder)
+	_, err := s.Every(1).Minute().Do(insertOrder)
 	if err != nil {
 		log.Panic("Cannot schedule order job", err)
 	}

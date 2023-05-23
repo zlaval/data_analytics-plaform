@@ -16,8 +16,8 @@ select
     _airbyte_data ->> 'email' as email,
     _airbyte_emitted_at as sync_date
 
-    from {{source('public','_airbyte_raw_users')}}
+from {{source('public','_airbyte_raw_users')}}
 
-    {% if is_incremental() %}
-        where _airbyte_emitted_at > select max(sync_date) from {{ this }}
-    {% endif %}
+{% if is_incremental() %}
+    where _airbyte_emitted_at > select max(sync_date) from {{ this }}
+{% endif %}

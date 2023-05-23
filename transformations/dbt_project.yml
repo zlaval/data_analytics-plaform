@@ -15,5 +15,5 @@ models:
   transformations:
       materialized: table
 #example for grant
-on-run-end:
-  - 'GRANT SELECT ON ALL TABLES IN SCHEMA metabase TO "admin"'
+#on-run-end:
+#  - 'GRANT SELECT ON ALL TABLES IN SCHEMA metabase TO "admin"'
