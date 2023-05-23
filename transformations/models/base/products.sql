@@ -18,19 +18,16 @@ select
 
 
 from
-
     {{ref('products_history')}} ph
+    left outer join {{this}} t on t.id=ph.product_id
 
-left outer join {{this}} t on t.id=ph.product_id
-
-
---{% if is_incremental() %}
---    where ph.id in(
---        select id from {{ref('products_history')}}
---        group by id
---        having max(sync_date) > (select max(sync_date) from {{ this }})
---    )
---{% endif %}
+{% if is_incremental() %}
+    where ph.id in(
+        select id from {{ref('products_history')}}
+        group by id
+        having max(sync_date) > (select max(sync_date) from {{ this }})
+    )
+{% endif %}
 
 group by ph.product_id
 
