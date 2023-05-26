@@ -5,4 +5,4 @@
 
 #### Articles
 * Eng: Coming Soon
-* Hun: Coming Soon
+* Hun: [Link](https://medium.com/p/37222e911f4b) 
